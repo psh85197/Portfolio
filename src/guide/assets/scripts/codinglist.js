@@ -1197,6 +1197,7 @@ const projectPathsDev = {
   "pathPagesInclude": "pages/include",
   "pathPagesPrototype": "pages/prototype",
   "pathPagesSample": "pages/sample",
+  "pathPagesMain": "pages/main",
   "pathPagesCM": "pages/CM",
   "pathPagesQK": "pages/QK",
   "pathPagesMN": "pages/MN",

@@ -44,6 +44,7 @@ const projectReplacePaths = {
   pathGuideImages: getBuildPath(`guide/assets/images`, `guide/assets/images`),
   pathGuideImagesMailform: getBuildPath(`guide/assets/images/mailform`, `guide/assets/images/mailform`),
   pathGuideImagesIcon: getBuildPath(`guide/assets/images/ico`, `guide/assets/images/ico`),
+  pathGuideMain: getBuildPath(`guide/pages/main`, `guide/pages/main`),
   pathGuideComponents: getBuildPath(`guide/pages/components`, `guide/pages/components`),
   pathGuideFoundation: getBuildPath(`guide/pages/foundation`, `guide/pages/foundation`),
   pathGuideTemplate: getBuildPath(`guide/pages/template`, `guide/pages/template`),
