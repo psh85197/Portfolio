@@ -123,6 +123,14 @@
   @include rem(font-size, 18);
   @include font-style($fontWeight, $lineHeight);
 }
+@mixin f20($fontWeight: null, $lineHeight: 1.4) {
+  @include rem(font-size, 20);
+  @include font-style($fontWeight, $lineHeight);
+}
+@mixin f34($fontWeight: null, $lineHeight: 1.4) {
+  @include rem(font-size, 34);
+  @include font-style($fontWeight, $lineHeight);
+}
 
 // ******************** code comments ********************
 // disabled 속성
@@ -716,7 +724,7 @@ $unit-base-font-size: $global-font-size;
       pct: 0%,
       percent: 0%,
       num: 0,
-      number: 0 // percent or number,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+      number: 0 // percent or number,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
     ),
     $unit
   );

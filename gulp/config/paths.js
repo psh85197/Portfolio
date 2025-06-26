@@ -39,6 +39,7 @@ const projectReplacePaths = {
   pathScripts: getBuildPath(`assets/scripts`, `assets/scripts`),
   pathFonts: getBuildPath(`assets/fonts`, `assets/fonts`),
   pathImages: getBuildPath(`assets/images`, `assets/images`),
+  pathPagesImage: getBuildPath(`assets/image`, `assets/image`),
   pathGuideStyles: getBuildPath(`guide/assets/styles`, `guide/assets/styles`),
   pathGuideScripts: getBuildPath(`guide/assets/scripts`, `guide/assets/scripts`),
   pathGuideImages: getBuildPath(`guide/assets/images`, `guide/assets/images`),
