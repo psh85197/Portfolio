@@ -1,0 +1,851 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HTML, CSS 코드 에디터</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Pretendard", sans-serif;
+      }
+      body {
+        background-color: #f5f5f5;
+        padding: 20px;
+      }
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+      }
+      h1 {
+        text-align: center;
+        margin-bottom: 20px;
+        color: #333;
+      }
+      .editor-container {
+        display: flex;
+        gap: 20px;
+        margin-bottom: 20px;
+      }
+      .editor-section {
+        flex: 1;
+        margin-bottom: 30px;
+      }
+      .editor-section h2 {
+        margin-bottom: 10px;
+        color: #444;
+      }
+      textarea {
+        width: 100%;
+        min-height: 300px;
+        padding: 15px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-family: monospace;
+        resize: vertical;
+      }
+      .button-group {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        margin-top: 20px;
+      }
+      .button-group button {
+        padding: 10px 20px;
+        font-size: 16px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+      .save-btn {
+        background-color: #4caf50;
+        color: white;
+      }
+      .save-btn:hover {
+        background-color: #45a049;
+      }
+      .load-btn {
+        display: none;
+      }
+      .load-btn:hover {
+        background-color: #0b7dda;
+      }
+      .reset-btn {
+        background-color: #f44336;
+        color: white;
+      }
+      .reset-btn:hover {
+        background-color: #d32f2f;
+      }
+      .status {
+        text-align: center;
+        margin-top: 15px;
+        padding: 10px;
+        border-radius: 5px;
+        display: none;
+      }
+      .status.success {
+        display: block;
+        background-color: #dff0d8;
+        color: #3c763d;
+      }
+      .status.error {
+        display: block;
+        background-color: #f2dede;
+        color: #a94442;
+      }
+      .file-input {
+        display: none;
+      }
+      .code-item {
+        margin-bottom: 15px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 15px;
+        position: relative;
+      }
+      .code-item textarea {
+        min-height: 150px;
+        margin-bottom: 10px;
+      }
+      .code-item-buttons {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+      }
+      .code-item-buttons button {
+        padding: 5px 10px;
+        font-size: 14px;
+      }
+      .delete-btn {
+        background-color: #f44336;
+        color: white;
+      }
+      .delete-btn:hover {
+        background-color: #d32f2f;
+      }
+      .code-list {
+        max-height: 600px;
+        overflow-y: auto;
+        padding-right: 10px;
+      }
+      .code-item-label {
+        font-weight: bold;
+        margin-bottom: 10px;
+        display: block;
+      }
+      .copy-btn {
+        background-color: #2196f3;
+        color: white;
+        padding: 8px 15px;
+        border-radius: 4px;
+        font-size: 14px;
+        cursor: pointer;
+        margin-left: 10px;
+        transition: background-color 0.3s;
+      }
+      .copy-btn:hover {
+        background-color: #0b7dda;
+      }
+      .result-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 10px;
+      }
+      .file-name-form {
+        margin-top: 30px;
+        background-color: #f9f9f9;
+        padding: 20px;
+        border-radius: 5px;
+        border: 1px solid #ddd;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>HTML, CSS 코드 에디터</h1>
+
+      <div class="editor-container">
+        <!-- HTML 코드 섹션 -->
+        <div class="editor-section">
+          <h2>1. HTML 코드</h2>
+          <div id="htmlCodeList" class="code-list">
+            <!-- 여기에 HTML 코드 아이템이 동적으로 추가됩니다 -->
+          </div>
+        </div>
+
+        <!-- CSS 코드 섹션 -->
+        <div class="editor-section">
+          <h2>2. CSS 코드</h2>
+          <div id="cssCodeList" class="code-list">
+            <!-- 여기에 CSS 코드 아이템이 동적으로 추가됩니다 -->
+          </div>
+        </div>
+      </div>
+
+      <!-- 결과 섹션 -->
+      <div id="resultSection" style="display: none; margin-top: 30px">
+        <div class="result-header">
+          <h2>3. 생성된 결과</h2>
+          <button id="copyBtn" class="copy-btn">복사하기</button>
+        </div>
+        <div style="background-color: #f5f5f5; padding: 15px; border-radius: 5px; border: 1px solid #ddd; margin-top: 10px">
+          <pre id="resultOutput" style="white-space: pre-wrap; font-family: monospace; margin: 0; max-height: 400px; overflow-y: auto"></pre>
+        </div>
+      </div>
+
+      <!-- 파일명 입력 폼 섹션 -->
+      <div class="file-name-form" style="margin-top: 30px; background-color: #f9f9f9; padding: 20px; border-radius: 5px; border: 1px solid #ddd">
+        <h2 style="margin-bottom: 15px; color: #444">파일명 설정</h2>
+        <div style="display: flex; gap: 20px; flex-wrap: wrap">
+          <div style="flex: 1; min-width: 250px">
+            <label for="htmlFolderPath" style="display: block; margin-bottom: 8px; font-weight: bold">HTML 폴더 경로</label>
+            <input type="text" id="htmlFolderPath" placeholder="폴더 경로 입력" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px" value="" />
+            <label for="htmlFileName" style="display: block; margin: 8px 0; font-weight: bold">HTML 파일명</label>
+            <input type="text" id="htmlFileName" placeholder="HTML 파일명 입력 (확장자 제외)" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px" />
+            <p style="margin-top: 5px; color: #666; font-size: 14px">./src/pages/[폴더경로]/[파일명].html에 저장됩니다.</p>
+          </div>
+          <div style="flex: 1; min-width: 250px">
+            <label for="scssFileName" style="display: block; margin-bottom: 8px; font-weight: bold">SCSS 파일명</label>
+            <input type="text" id="scssFileName" placeholder="SCSS 파일명 입력 (확장자 제외)" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px" />
+            <p style="margin-top: 5px; color: #666; font-size: 14px">./src/assets/styles/pages/[파일명].scss에 저장됩니다.</p>
+          </div>
+          <div style="flex: 1; min-width: 250px">
+            <label id="componentSelectLabel" style="display: block; margin-bottom: 8px; font-weight: bold">사용할 컴포넌트 (다중 선택 가능)</label>
+            <div class="multi-select-container" style="position: relative; width: 100%;">
+              <div class="multi-select-wrapper" style="border: 1px solid #ddd; border-radius: 5px; padding: 10px; background-color: white; cursor: pointer; display: flex; flex-wrap: wrap; min-height: 42px;" tabindex="0" aria-labelledby="componentSelectLabel" aria-expanded="false" role="combobox" aria-controls="componentOptions">
+                <div class="selected-options" style="display: flex; flex-wrap: wrap; gap: 5px;"></div>
+                <input type="text" id="componentSearch" placeholder="컴포넌트 검색 또는 선택" style="flex-grow: 1; border: none; outline: none; background: transparent; min-width: 100px;" aria-autocomplete="list" />
+                <input type="hidden" id="componentName" />
+              </div>
+              <ul id="componentOptions" class="options-list" style="display: none; position: absolute; width: 100%; max-height: 200px; overflow-y: auto; background-color: white; border: 1px solid #ddd; border-top: none; border-radius: 0 0 5px 5px; z-index: 10; list-style: none; padding: 0; margin: 0;" role="listbox" aria-multiselectable="true">
+                <li class="option-item" role="option" aria-selected="false" data-value="component-tab" style="padding: 10px; cursor: pointer;">
+                  <div class="checkbox-wrapper" style="display: flex; align-items: center;">
+                    <input type="checkbox" id="opt-component-tab" class="option-checkbox" style="margin-right: 8px;" />
+                    <label for="opt-component-tab" style="cursor: pointer;">component-tab</label>
+                  </div>
+                </li>
+                <li class="option-item" role="option" aria-selected="false" data-value="component-accordion" style="padding: 10px; cursor: pointer;">
+                  <div class="checkbox-wrapper" style="display: flex; align-items: center;">
+                    <input type="checkbox" id="opt-component-accordion" class="option-checkbox" style="margin-right: 8px;" />
+                    <label for="opt-component-accordion" style="cursor: pointer;">component-accordion</label>
+                  </div>
+                </li>
+                <li class="option-item" role="option" aria-selected="false" data-value="component-input" style="padding: 10px; cursor: pointer;">
+                  <div class="checkbox-wrapper" style="display: flex; align-items: center;">
+                    <input type="checkbox" id="opt-component-input" class="option-checkbox" style="margin-right: 8px;" />
+                    <label for="opt-component-input" style="cursor: pointer;">component-input</label>
+                  </div>
+                </li>
+                <li class="option-item" role="option" aria-selected="false" data-value="component-btns" style="padding: 10px; cursor: pointer;">
+                  <div class="checkbox-wrapper" style="display: flex; align-items: center;">
+                    <input type="checkbox" id="opt-component-btns" class="option-checkbox" style="margin-right: 8px;" />
+                    <label for="opt-component-btns" style="cursor: pointer;">component-btns</label>
+                  </div>
+                </li>
+                <li class="option-item" role="option" aria-selected="false" data-value="component-checkbox" style="padding: 10px; cursor: pointer;">
+                  <div class="checkbox-wrapper" style="display: flex; align-items: center;">
+                    <input type="checkbox" id="opt-component-checkbox" class="option-checkbox" style="margin-right: 8px;" />
+                    <label for="opt-component-checkbox" style="cursor: pointer;">component-checkbox</label>
+                  </div>
+                </li>
+                <li class="option-item" role="option" aria-selected="false" data-value="component-form" style="padding: 10px; cursor: pointer;">
+                  <div class="checkbox-wrapper" style="display: flex; align-items: center;">
+                    <input type="checkbox" id="opt-component-form" class="option-checkbox" style="margin-right: 8px;" />
+                    <label for="opt-component-form" style="cursor: pointer;">component-form</label>
+                  </div>
+                </li>
+                <li class="option-item" role="option" aria-selected="false" data-value="component-pagination" style="padding: 10px; cursor: pointer;">
+                  <div class="checkbox-wrapper" style="display: flex; align-items: center;">
+                    <input type="checkbox" id="opt-component-pagination" class="option-checkbox" style="margin-right: 8px;" />
+                    <label for="opt-component-pagination" style="cursor: pointer;">component-pagination</label>
+                  </div>
+                </li>
+                <li class="option-item" role="option" aria-selected="false" data-value="component-radio" style="padding: 10px; cursor: pointer;">
+                  <div class="checkbox-wrapper" style="display: flex; align-items: center;">
+                    <input type="checkbox" id="opt-component-radio" class="option-checkbox" style="margin-right: 8px;" />
+                    <label for="opt-component-radio" style="cursor: pointer;">component-radio</label>
+                  </div>
+                </li>
+                <li class="option-item" role="option" aria-selected="false" data-value="component-select" style="padding: 10px; cursor: pointer;">
+                  <div class="checkbox-wrapper" style="display: flex; align-items: center;">
+                    <input type="checkbox" id="opt-component-select" class="option-checkbox" style="margin-right: 8px;" />
+                    <label for="opt-component-select" style="cursor: pointer;">component-select</label>
+                  </div>
+                </li>
+                <li class="option-item" role="option" aria-selected="false" data-value="component-table" style="padding: 10px; cursor: pointer;">
+                  <div class="checkbox-wrapper" style="display: flex; align-items: center;">
+                    <input type="checkbox" id="opt-component-table" class="option-checkbox" style="margin-right: 8px;" />
+                    <label for="opt-component-table" style="cursor: pointer;">component-table</label>
+                  </div>
+                </li>
+                <li class="option-item" role="option" aria-selected="false" data-value="component-tooltip" style="padding: 10px; cursor: pointer;">
+                  <div class="checkbox-wrapper" style="display: flex; align-items: center;">
+                    <input type="checkbox" id="opt-component-tooltip" class="option-checkbox" style="margin-right: 8px;" />
+                    <label for="opt-component-tooltip" style="cursor: pointer;">component-tooltip</label>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <p style="margin-top: 5px; color: #666; font-size: 14px">사용해야 할 컴포넌트를 선택하세요. 여러 개 선택 가능합니다.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="button-group">
+        <button id="saveBtn" class="save-btn">저장</button>
+        <input type="file" id="fileInput" class="file-input" accept=".docx,.txt,.md" />
+        <button id="resetBtn" class="reset-btn">초기화</button>
+      </div>
+
+      <div id="statusMessage" class="status"></div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // DOM elements
+        const htmlCodeList = document.getElementById("htmlCodeList");
+        const cssCodeList = document.getElementById("cssCodeList");
+        const saveBtn = document.getElementById("saveBtn");
+        const resetBtn = document.getElementById("resetBtn");
+        const fileInput = document.getElementById("fileInput");
+        const statusMessage = document.getElementById("statusMessage");
+
+        // 상태 메시지 표시 함수
+        function showStatus(message, isError = false) {
+          statusMessage.textContent = message;
+          statusMessage.className = "status " + (isError ? "error" : "success");
+
+          // 3초 후 상태 메시지 숨기기
+          setTimeout(() => {
+            statusMessage.className = "status";
+          }, 3000);
+        }
+
+        // HTML 코드 아이템 생성 함수
+        function createHtmlCodeItem(content = "") {
+          const codeItem = document.createElement("div");
+          codeItem.className = "code-item";
+          codeItem.id = "html-code-" + Date.now();
+
+          const textarea = document.createElement("textarea");
+          textarea.className = "code-textarea";
+          textarea.placeholder = "HTML 코드를 입력하세요...";
+          textarea.value = content;
+
+          const buttonsDiv = document.createElement("div");
+          buttonsDiv.className = "code-item-buttons";
+
+          const deleteBtn = document.createElement("button");
+          deleteBtn.className = "delete-btn";
+          deleteBtn.textContent = "삭제";
+          deleteBtn.addEventListener("click", function () {
+            textarea.value = "";
+            saveToLocalStorage();
+            showStatus("코드가 삭제되었습니다.");
+          });
+
+          buttonsDiv.appendChild(deleteBtn);
+          codeItem.appendChild(textarea);
+          codeItem.appendChild(buttonsDiv);
+
+          return codeItem;
+        }
+
+        // CSS 코드 아이템 생성 함수
+        function createCssCodeItem(content = "") {
+          const codeItem = document.createElement("div");
+          codeItem.className = "code-item";
+          codeItem.id = "css-code-" + Date.now();
+
+          const textarea = document.createElement("textarea");
+          textarea.className = "code-textarea";
+          textarea.placeholder = "CSS 코드를 입력하세요...";
+          textarea.value = content;
+
+          const buttonsDiv = document.createElement("div");
+          buttonsDiv.className = "code-item-buttons";
+
+          const deleteBtn = document.createElement("button");
+          deleteBtn.className = "delete-btn";
+          deleteBtn.textContent = "삭제";
+          deleteBtn.addEventListener("click", function () {
+            textarea.value = "";
+            saveToLocalStorage();
+            showStatus("코드가 삭제되었습니다.");
+          });
+
+          buttonsDiv.appendChild(deleteBtn);
+          codeItem.appendChild(textarea);
+          codeItem.appendChild(buttonsDiv);
+
+          return codeItem;
+        }
+
+        // localStorage에 데이터 저장
+        function saveToLocalStorage() {
+          // HTML 코드 데이터 저장
+          const htmlCodeData = [];
+          htmlCodeList.querySelectorAll(".code-item textarea").forEach((textarea) => {
+            htmlCodeData.push(textarea.value);
+          });
+          localStorage.setItem("htmlCodeData", JSON.stringify(htmlCodeData));
+
+          // CSS 코드 데이터 저장
+          const cssCodeData = [];
+          cssCodeList.querySelectorAll(".code-item textarea").forEach((textarea) => {
+            cssCodeData.push(textarea.value);
+          });
+          localStorage.setItem("cssCodeData", JSON.stringify(cssCodeData));
+
+          // 파일명, 폴더 경로, 컴포넌트명 데이터 저장
+          const fileNameData = {
+            htmlFolder: document.getElementById("htmlFolderPath").value,
+            html: document.getElementById("htmlFileName").value,
+            scss: document.getElementById("scssFileName").value,
+            component: document.getElementById("componentName").value,
+          };
+          localStorage.setItem("fileNameData", JSON.stringify(fileNameData));
+
+          // 선택된 컴포넌트 저장
+          const selectedComponents = [];
+          document.querySelectorAll('.option-item[aria-selected="true"]').forEach(item => {
+            selectedComponents.push(item.getAttribute('data-value'));
+          });
+          localStorage.setItem("selectedComponents", JSON.stringify(selectedComponents));
+        }
+
+        // localStorage에서 데이터 불러오기
+        function loadFromLocalStorage() {
+          // HTML 코드 데이터 불러오기
+          const htmlCodeData = JSON.parse(localStorage.getItem("htmlCodeData")) || [];
+          htmlCodeList.innerHTML = "";
+
+          if (htmlCodeData.length === 0) {
+            // 데이터가 없으면 빈 아이템 추가
+            const htmlCodeItem = createHtmlCodeItem();
+            htmlCodeList.appendChild(htmlCodeItem);
+          } else {
+            // 저장된 데이터로 아이템 생성
+            htmlCodeData.forEach((content) => {
+              const htmlCodeItem = createHtmlCodeItem(content);
+              htmlCodeList.appendChild(htmlCodeItem);
+            });
+          }
+
+          // CSS 코드 데이터 불러오기
+          const cssCodeData = JSON.parse(localStorage.getItem("cssCodeData")) || [];
+          cssCodeList.innerHTML = "";
+
+          if (cssCodeData.length === 0) {
+            // 데이터가 없으면 빈 아이템 추가
+            const cssCodeItem = createCssCodeItem();
+            cssCodeList.appendChild(cssCodeItem);
+          } else {
+            // 저장된 데이터로 아이템 생성
+            cssCodeData.forEach((content) => {
+              const cssCodeItem = createCssCodeItem(content);
+              cssCodeList.appendChild(cssCodeItem);
+            });
+          }
+
+          // 파일명, 폴더 경로, 컴포넌트명 데이터 불러오기
+          const fileNameData = JSON.parse(localStorage.getItem("fileNameData")) || { htmlFolder: "", html: "", scss: "", component: "" };
+          document.getElementById("htmlFolderPath").value = fileNameData.htmlFolder || "";
+          document.getElementById("htmlFileName").value = fileNameData.html || "";
+          document.getElementById("scssFileName").value = fileNameData.scss || "";
+          document.getElementById("componentName").value = fileNameData.component || "";
+
+          // 선택된 컴포넌트 불러오기
+          const selectedComponents = JSON.parse(localStorage.getItem("selectedComponents")) || [];
+          selectedComponents.forEach(component => {
+            const option = document.querySelector(`.option-item[data-value="${component}"]`);
+            if (option) {
+              option.setAttribute('aria-selected', 'true');
+              option.querySelector('.option-checkbox').checked = true;
+              addSelectedTag(component);
+            }
+          });
+          updateComponentNameField();
+        }
+
+        // 파일 선택 이벤트
+        fileInput.addEventListener("change", function (e) {
+          const file = e.target.files[0];
+          if (!file) return;
+
+          const reader = new FileReader();
+          reader.onload = function (e) {
+            const content = e.target.result;
+
+            // 마크다운 형식과 일반 텍스트 형식 모두 처리
+            let htmlCode = "";
+            let cssCode = "";
+
+            // 마크다운 형식 확인
+            const htmlCodeMatch = content.match(/```json\s*([\s\S]*?)\s*```/);
+            const cssCodeMatch = content.match(/```css\s*([\s\S]*?)\s*```/);
+
+            if (htmlCodeMatch && cssCodeMatch) {
+              // 마크다운 형식
+              htmlCode = htmlCodeMatch[1].trim();
+              cssCode = cssCodeMatch[1].trim();
+            } else {
+              // 기존 형식 (docx)
+              const oldHtmlMatch = content.match(/1번 값 : ([\s\S]*?)(?=2\. css 코드|$)/);
+              const oldCssMatch = content.match(/2번 값 : ([\s\S]*?)(?=$)/);
+
+              htmlCode = oldHtmlMatch ? oldHtmlMatch[1].trim() : "";
+              cssCode = oldCssMatch ? oldCssMatch[1].trim() : "";
+            }
+
+            // 기존 코드 아이템 초기화
+            htmlCodeList.innerHTML = "";
+            cssCodeList.innerHTML = "";
+
+            // 새 코드 아이템 추가
+            if (htmlCode) {
+              const codeItem = createHtmlCodeItem(htmlCode);
+              htmlCodeList.appendChild(codeItem);
+            }
+
+            if (cssCode) {
+              const codeItem = createCssCodeItem(cssCode);
+              cssCodeList.appendChild(codeItem);
+            }
+
+            saveToLocalStorage();
+            showStatus(`${file.name} 파일을 성공적으로 불러왔습니다.`);
+          };
+          reader.onerror = function () {
+            showStatus("파일을 읽는 중 오류가 발생했습니다.", true);
+          };
+          reader.readAsText(file);
+        });
+
+        // 저장 버튼 이벤트
+        saveBtn.addEventListener("click", function () {
+          saveHtmlDocx();
+          showStatus("파일이 저장되었습니다.");
+        });
+
+        // 프롬프트 파일 저장 함수
+        function saveHtmlDocx() {
+          const content = generateHtmlDocxContent();
+
+          // 결과를 화면에 표시
+          const resultSection = document.getElementById("resultSection");
+          const resultOutput = document.getElementById("resultOutput");
+          resultOutput.textContent = content;
+          resultSection.style.display = "block";
+
+          // 결과 섹션으로 스크롤
+          resultSection.scrollIntoView({ behavior: "smooth" });
+        }
+
+        // 프롬프트 파일 내용 생성 함수
+        function generateHtmlDocxContent() {
+          // 모든 HTML 코드 수집
+          let htmlCodes = "";
+          const htmlItems = htmlCodeList.querySelectorAll(".code-item textarea");
+          htmlItems.forEach((textarea, index) => {
+            if (index > 0) htmlCodes += "\n\n";
+            htmlCodes += textarea.value;
+          });
+
+          // 모든 CSS 코드 수집
+          let cssCodes = "";
+          const cssItems = cssCodeList.querySelectorAll(".code-item textarea");
+          cssItems.forEach((textarea, index) => {
+            if (index > 0) cssCodes += "\n\n";
+            cssCodes += textarea.value;
+          });
+
+          // HTML과 SCSS 파일명 및 폴더 경로, 컴포넌트명 가져오기
+          const html = {
+            name: document.getElementById("htmlFileName").value || "index",
+            folder: document.getElementById("htmlFolderPath").value || ""
+          };
+          const scss = {
+            name: document.getElementById("scssFileName").value || "index",
+          };
+          const components = {
+            name: document.getElementById("componentName").value || "",
+          };
+
+          // 프롬프트 내용 생성 (마크다운 형식)
+          return `# 코드 제작 요청
+
+필수 조건
+1. .windsurfrules 파일 참고
+2. .windsurfrules 파일에서 컴포넌트 예시 사용
+3. 변환전 코드의 스타일 구조는 깨지지 않게 수정하세요.
+4. 각 파일의 현재 내용을 정확히 확인한 후 수정하세요.
+5. HTML 파일은 "<!-- ai가 코딩해줄 부분 -->" 주석 바로 다음에 코드를 추가하세요.
+6. SCSS 파일은 기존 내용을 유지하면서 SCSS 파일의 내용을 정확히 파악하고, 파일 내용을 더 자세히 확인한 후, 맨 아래에 새로운 스타일을 추가하세요.
+7. mixin @include rem 함수 사용 (예 : @include rem(속성, 값); )
+8. 모든 색상 변수는 직접 값(예: #000000)을 지정으로 수정합니다.
+9. 모든 폰트 스타일은 기본으로 지정하고 나중에 커스텀으로 따로 지정하겠습니다.
+10. CSS gap 속성 사용 금지 (margin으로 간격 조정)
+
+당신은 UI/UX 전문가입니다.
+단계적으로 생각하세요.
+필수 조건을 참고해서 변환전 HTML 코드, 변환전 CSS 코드를 변환시켜주세요.
+1. 클래스명을 .windsurfrules 파일 참고해서 변환하세요.
+2. 변환된 코드를 다시 읽고, .windsurfrules 파일의 컴포넌트 사용 예시를 참고해서 변환전 코드의 스타일 구조는 깨지지 않게 아래 해당 HTML 파일, SCSS 파일에 변환하세요.
+3. 변환된 코드에서 해당 컴포넌트 자식 요소(예 : tag, class, id)들을 모두 동일하게 아래 해당 HTML 파일, SCSS 파일에 변환하세요.
+
+HTML 파일 : ./src/pages/${html.folder}/${html.name}.html
+SCSS 파일 : ./src/assets/styles/pages/${scss.name}.scss
+사용해야할 컴포넌트 : ${components.name}
+
+## 1. 변환전 HTML 코드
+
+\`\`\`html
+${htmlCodes}
+\`\`\`
+
+## 2. 변환전 CSS 코드
+
+\`\`\`css
+${cssCodes}
+\`\`\``;
+        }
+
+        // 복사 버튼 이벤트
+        document.getElementById("copyBtn").addEventListener("click", function () {
+          const resultOutput = document.getElementById("resultOutput");
+          const content = resultOutput.textContent;
+
+          // 클립보드에 복사
+          navigator.clipboard
+            .writeText(content)
+            .then(() => {
+              showStatus("결과가 클립보드에 복사되었습니다.");
+            })
+            .catch((err) => {
+              showStatus("복사 중 오류가 발생했습니다: " + err, true);
+            });
+        });
+
+        // 초기화 버튼 이벤트
+        resetBtn.addEventListener("click", function () {
+          htmlCodeList.innerHTML = "";
+          cssCodeList.innerHTML = "";
+          localStorage.removeItem("htmlCodeData");
+          localStorage.removeItem("cssCodeData");
+          localStorage.removeItem("fileNameData");
+
+          // 기본 빈 아이템 추가
+          const htmlCodeItem = createHtmlCodeItem();
+          htmlCodeList.appendChild(htmlCodeItem);
+
+          const cssCodeItem = createCssCodeItem();
+          cssCodeList.appendChild(cssCodeItem);
+
+          // 파일명, 폴더 경로, 컴포넌트명 입력 필드 초기화
+          document.getElementById("htmlFolderPath").value = "";
+          document.getElementById("htmlFileName").value = "";
+          document.getElementById("scssFileName").value = "";
+          document.getElementById("componentName").value = "";
+
+          // 선택된 컴포넌트 초기화
+          document.querySelectorAll('.option-item').forEach(item => {
+            item.setAttribute('aria-selected', 'false');
+            item.querySelector('.option-checkbox').checked = false;
+          });
+          document.querySelector('.selected-options').innerHTML = '';
+          localStorage.removeItem("selectedComponents");
+
+          showStatus("모든 코드가 초기화되었습니다.");
+        });
+
+        // 다중 선택 컴포넌트 초기화 및 이벤트 설정
+        initMultiSelect();
+
+        // 페이지 로드 시 localStorage에서 데이터 불러오기
+        loadFromLocalStorage();
+
+        // 페이지 언로드 시 자동 저장
+        window.addEventListener("beforeunload", function () {
+          saveToLocalStorage();
+        });
+
+        // 다중 선택 컴포넌트 초기화 함수
+        function initMultiSelect() {
+          const multiSelectWrapper = document.querySelector('.multi-select-wrapper');
+          const optionsList = document.getElementById('componentOptions');
+          const componentSearch = document.getElementById('componentSearch');
+
+          // 다중 선택 컴포넌트 클릭 시 옵션 목록 표시/숨김
+          multiSelectWrapper.addEventListener('click', function(e) {
+            const isExpanded = this.getAttribute('aria-expanded') === 'true';
+            this.setAttribute('aria-expanded', !isExpanded);
+            optionsList.style.display = isExpanded ? 'none' : 'block';
+
+            if (!isExpanded) {
+              componentSearch.focus();
+            }
+          });
+
+          // 키보드 접근성 지원
+          multiSelectWrapper.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              const isExpanded = this.getAttribute('aria-expanded') === 'true';
+              this.setAttribute('aria-expanded', !isExpanded);
+              optionsList.style.display = isExpanded ? 'none' : 'block';
+
+              if (!isExpanded) {
+                componentSearch.focus();
+              }
+            } else if (e.key === 'Escape') {
+              this.setAttribute('aria-expanded', 'false');
+              optionsList.style.display = 'none';
+              this.focus();
+            }
+          });
+
+          // 옵션 항목 클릭 이벤트 - 라벨을 클릭해도 체크박스가 체크되도록 수정
+          document.querySelectorAll('.option-item').forEach(item => {
+            // 체크박스와 라벨을 제외한 영역 클릭 이벤트
+            item.addEventListener('click', function(e) {
+              // 체크박스나 라벨을 클릭한 경우 이벤트 처리를 방지
+              if (e.target.tagName === 'INPUT' || e.target.tagName === 'LABEL') {
+                return;
+              }
+
+              e.stopPropagation();
+              const checkbox = this.querySelector('.option-checkbox');
+              const isSelected = this.getAttribute('aria-selected') === 'true';
+
+              this.setAttribute('aria-selected', !isSelected);
+              checkbox.checked = !isSelected;
+
+              const value = this.getAttribute('data-value');
+              if (!isSelected) {
+                addSelectedTag(value);
+              } else {
+                removeSelectedTag(value);
+              }
+
+              updateComponentNameField();
+            });
+
+            // 체크박스 클릭 이벤트
+            const checkbox = item.querySelector('.option-checkbox');
+            checkbox.addEventListener('change', function(e) {
+              const listItem = this.closest('.option-item');
+              const isChecked = this.checked;
+
+              listItem.setAttribute('aria-selected', isChecked);
+
+              const value = listItem.getAttribute('data-value');
+              if (isChecked) {
+                addSelectedTag(value);
+              } else {
+                removeSelectedTag(value);
+              }
+
+              updateComponentNameField();
+            });
+          });
+
+          // 외부 클릭 시 옵션 목록 닫기
+          document.addEventListener('click', function(e) {
+            // 체크박스나 라벨 클릭은 무시
+            if (e.target.closest('.option-item') &&
+                (e.target.tagName === 'INPUT' || e.target.tagName === 'LABEL')) {
+              return;
+            }
+
+            // 옵션 목록 영역 외부 클릭 시에만 목록 닫기
+            if (!multiSelectWrapper.contains(e.target)) {
+              multiSelectWrapper.setAttribute('aria-expanded', 'false');
+              optionsList.style.display = 'none';
+            }
+          });
+
+          // 검색 기능
+          componentSearch.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            document.querySelectorAll('.option-item').forEach(item => {
+              const text = item.textContent.toLowerCase();
+              item.style.display = text.includes(searchTerm) ? 'block' : 'none';
+            });
+          });
+        }
+
+        // 선택된 태그 추가 함수
+        function addSelectedTag(value) {
+          const selectedOptions = document.querySelector('.selected-options');
+          const existingTag = document.querySelector(`.selected-tag[data-value="${value}"]`);
+
+          if (!existingTag) {
+            const tag = document.createElement('div');
+            tag.className = 'selected-tag';
+            tag.setAttribute('data-value', value);
+            tag.style.backgroundColor = '#e9f5ff';
+            tag.style.border = '1px solid #2196f3';
+            tag.style.borderRadius = '4px';
+            tag.style.padding = '2px 8px';
+            tag.style.marginRight = '5px';
+            tag.style.marginBottom = '5px';
+            tag.style.display = 'flex';
+            tag.style.alignItems = 'center';
+
+            const tagText = document.createElement('span');
+            tagText.textContent = value;
+            tag.appendChild(tagText);
+
+            const removeBtn = document.createElement('span');
+            removeBtn.innerHTML = '&times;';
+            removeBtn.style.marginLeft = '5px';
+            removeBtn.style.cursor = 'pointer';
+            removeBtn.style.fontWeight = 'bold';
+            removeBtn.setAttribute('aria-label', `${value} 제거`);
+            removeBtn.addEventListener('click', function(e) {
+              e.stopPropagation();
+              const option = document.querySelector(`.option-item[data-value="${value}"]`);
+              if (option) {
+                option.setAttribute('aria-selected', 'false');
+                option.querySelector('.option-checkbox').checked = false;
+              }
+              tag.remove();
+              updateComponentNameField();
+            });
+
+            tag.appendChild(removeBtn);
+            selectedOptions.appendChild(tag);
+          }
+        }
+
+        // 선택된 태그 제거 함수
+        function removeSelectedTag(value) {
+          const tag = document.querySelector(`.selected-tag[data-value="${value}"]`);
+          if (tag) {
+            tag.remove();
+          }
+        }
+
+        // 컴포넌트명 필드 업데이트 함수
+        function updateComponentNameField() {
+          const selectedValues = [];
+          document.querySelectorAll('.selected-tag').forEach(tag => {
+            selectedValues.push(tag.getAttribute('data-value'));
+          });
+          document.getElementById('componentName').value = selectedValues.join(', ');
+        }
+      });
+    </script>
+  </body>
+</html>
