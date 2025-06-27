@@ -5,7 +5,7 @@
     <meta name="format-detection" content="telephone=no" />
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta charset="utf-8" />
-    <title>프로젝트타이틀</title>
+    <title>박성환 Portfolio</title>
     <meta name="keywords" content="" />
     <meta name="description" content="" />
     <meta property="og:title" content="" />
@@ -17,8 +17,6 @@
     <script src="pathScripts/common.ui.plugin.js" data-init></script>
     <script src="pathScripts/common.ui.js" data-init></script>
     <script src="pathScripts/common.js"></script>
-    <!-- 약관 템플릿 js(추후 작업예정) -->
-    <!-- <script src="pathScripts/ui/templates/privacy_policy_template.js"></script> -->
   </head>
 
   <body>
@@ -26,15 +24,65 @@
       @@include('pathPagesInclude/_header.html', { "title": "test_title01", "title02": "test_title02" })
 
       <div class="pageClassMain main" id="container">
-        <div id="content" role="main" style="font-size: 1.2rem">
-          <div class="content-text">컨텐츠 시작</div>
-
-          <div class="ico-triangle-right-sample01"></div>
+        <div id="content" role="main" class="cont">
+          <section class="home">
+            <div class="home-inner">
+              <div class="home-cont">
+                <div class="home-text">
+                  <p>Welcome to Portfolio :)</p>
+                  <span>퍼블리셔 박성환 입니다.</span>
+                </div>
+              </div>
+            </div>
+          </section>
+          <section class="about">
+            <div class="about-inner">
+              <div class="about-cont">
+                <div class="about-text">
+                  <p>About</p>
+                </div>
+                <ul class="about-list">
+                  <li class="about-item">
+                    <div class="mental-attitude-bx">
+                      <strong>배움을 좋아하는 웹 퍼블리셔</strong>
+                      <p>
+                        저는 좋아하는 일에 안주하지 않고, 늘 발전하기 위해 노력합니다. 끊임없이 배우고 성장하고자 하는 열정을 바탕으로 새로운 지식을 습득하는 데 주저하지 않으며, 그 과정에서 <span>Vue2</span>, <span>Vue3</span>, <span>React</span> 등 다양한 프레임워크를 경험했습니다. 특히 <span>React</span> 프로젝트에서는 조그만한 프로젝트지만 처음부터 끝까지 전체 퍼블리싱 과정을 주도하며 PL 역할을 성공적으로 수행한 경험이 있습니다.
+                      </p>
+                    </div>
+                  </li>
+                  <li class="about-item">
+                    <div class="name-bx">
+                      <strong>박성환</strong>
+                      <p> 1992.04.22 </p>
+                      <p>5년차 퍼블리셔</p>
+                    </div>
+                  </li>
+                </ul>
+                <ul class="about-list type02">
+                  <li class="about-item">
+                    <div class="cell-phone-bx">
+                      <strong>Cell : 010-8526-5197</strong>
+                    </div>
+                  </li>
+                  <li class="about-item">
+                    <div class="email-bx">
+                      <strong>Email : psh85197@gmail.com</strong>
+                    </div>
+                  </li>
+                  <li class="about-item">
+                    <div class="git-bx">
+                      <strong>GitHub : https://github.com/psh85197/Portfolio</strong>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </section>
+          <section class="project"></section>
         </div>
       </div>
 
       @@include('pathPagesInclude/_footer.html')
     </div>
-    <div class="dimm"></div>
   </body>
 </html>

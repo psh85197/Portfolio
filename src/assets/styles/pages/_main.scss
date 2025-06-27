@@ -1,6 +1,80 @@
 @use "../abstracts" as *;
-
 .main {
-  background: url("pathPagesImage/home_bg.jpg") no-repeat center center;
-  background-size: 100% auto;
+  .cont {
+    > section {
+      height: 100vh;
+      &.home {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: url("pathPagesImage/home_bg.jpg") no-repeat center center;
+        background-size: 100% 100%;
+        .home-text {
+          text-align: center;
+          opacity: 0;
+          transform: translateY(50px);
+          transition: all 0.8s ease-out;
+
+          &.text-animated {
+            opacity: 1;
+            transform: translateY(0);
+          }
+
+          p {
+            @include f40(700);
+            @include rem(margin-bottom, 4);
+            color: $font-ffffff;
+          }
+          span {
+            @include f36(500);
+            color: $font-ffffff;
+          }
+        }
+      }
+      &.about {
+        .about-text {
+          text-align: center;
+          p {
+            @include f32(700);
+            color: $font-212529;
+          }
+        }
+        .about-list {
+          @include rem(padding, 0 40);
+          @include rem(margin-top, 80);
+          @include rem(column-gap, 40);
+          display: grid;
+          @include rem(grid-template-columns, repeat(2, 1fr));
+          @include rem(grid-template-rows, repeat(1, 1fr));
+          &.type02 {
+            @include rem(grid-template-columns, repeat(3, 1fr));
+          }
+          .about-item {
+            @include rem(padding, 20);
+            @include rem(border-radius, 32);
+            box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+            text-align: center;
+            background-color: $bg-ffffff;
+            color: $font-212529;
+            strong {
+              @include rem(margin-bottom, 12);
+              @include f24(500);
+              display: inline-block;
+            }
+            p {
+              @include f20(400);
+              color: $font-868e96;
+              & + p {
+                @include rem(margin-top, 8);
+              }
+            }
+          }
+        }
+      }
+
+      &.project {
+        transition-delay: 0.3s;
+      }
+    }
+  }
 }

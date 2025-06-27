@@ -127,8 +127,24 @@
   @include rem(font-size, 20);
   @include font-style($fontWeight, $lineHeight);
 }
-@mixin f34($fontWeight: null, $lineHeight: 1.4) {
-  @include rem(font-size, 34);
+
+@mixin f24($fontWeight: null, $lineHeight: 1.4) {
+  @include rem(font-size, 24);
+  @include font-style($fontWeight, $lineHeight);
+}
+
+@mixin f32($fontWeight: null, $lineHeight: 1.4) {
+  @include rem(font-size, 32);
+  @include font-style($fontWeight, $lineHeight);
+}
+
+@mixin f36($fontWeight: null, $lineHeight: 1.4) {
+  @include rem(font-size, 36);
+  @include font-style($fontWeight, $lineHeight);
+}
+
+@mixin f40($fontWeight: null, $lineHeight: 1.4) {
+  @include rem(font-size, 40);
   @include font-style($fontWeight, $lineHeight);
 }
 
@@ -724,7 +740,7 @@ $unit-base-font-size: $global-font-size;
       pct: 0%,
       percent: 0%,
       num: 0,
-      number: 0 // percent or number,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+      number: 0 // percent or number,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
     ),
     $unit
   );
