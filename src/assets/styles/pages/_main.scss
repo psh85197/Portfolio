@@ -1,79 +1,275 @@
 @use "../abstracts" as *;
 .main {
   .cont {
-    > section {
+    @include rem(padding-bottom, 120);
+    .home {
       height: 100vh;
-      &.home {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: url("pathPagesImage/home_bg.jpg") no-repeat center center;
-        background-size: 100% 100%;
-        .home-text {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: url("pathPagesImage/home_bg.jpg") no-repeat center center;
+      background-size: 100% 100%;
+      .home-text {
+        text-align: center;
+        opacity: 0;
+        transform: translateY(50px);
+        transition: all 0.8s ease-out;
+
+        &.text-animated {
+          opacity: 1;
+          transform: translateY(0);
+        }
+
+        p {
+          @include f40(700);
+          @include rem(margin-bottom, 4);
+          color: $font-ffffff;
+        }
+        span {
+          @include f36(500);
+          color: $font-ffffff;
+        }
+      }
+    }
+    .about {
+      @include rem(max-width, 1440);
+      @include rem(margin, 40 auto 0);
+      .about-text {
+        text-align: center;
+        p {
+          @include f32(700);
+          color: $font-212529;
+        }
+      }
+      .about-list {
+        @include rem(padding, 0 40);
+        @include rem(margin-top, 40);
+        @include rem(column-gap, 40);
+        display: grid;
+        @include rem(grid-template-columns, repeat(2, 1fr));
+        @include rem(grid-template-rows, repeat(1, 1fr));
+        &.type02 {
+          @include rem(grid-template-columns, repeat(3, 1fr));
+        }
+        .about-item {
+          @include rem(padding, 20);
           text-align: center;
-          opacity: 0;
-          transform: translateY(50px);
-          transition: all 0.8s ease-out;
+          color: $font-212529;
+          will-change: transform, opacity;
+          transform-origin: center bottom;
 
-          &.text-animated {
-            opacity: 1;
-            transform: translateY(0);
+          .img-bx {
+            @include rem(margin-bottom, 40);
+            img {
+              @include rem(width, 56);
+              @include rem(height, 56);
+            }
           }
 
+          strong {
+            @include rem(margin-bottom, 12);
+            @include f24(500);
+            display: block;
+          }
           p {
-            @include f40(700);
-            @include rem(margin-bottom, 4);
-            color: $font-ffffff;
-          }
-          span {
-            @include f36(500);
-            color: $font-ffffff;
+            @include f20(400);
+            color: $font-868e96;
+            & + p {
+              @include rem(margin-top, 8);
+            }
+            span {
+              font-weight: 700;
+            }
           }
         }
       }
-      &.about {
-        .about-text {
-          text-align: center;
+    }
+
+    .project {
+      @include rem(max-width, 1440);
+      @include rem(margin, 40 auto 0);
+      .project-text {
+        text-align: center;
+        p {
+          @include f32(700);
+          color: $font-212529;
+        }
+      }
+      .component-tab {
+        @include rem(padding, 0 40);
+        .tab-head {
+          @include rem(margin-top, 40);
+          justify-content: center;
+        }
+        .tab-label {
+          @include rem(width, auto);
+          @include rem(padding, 6 15);
+          @include rem(border-radius, 25);
+          @include f24(500);
+          color: $font-212529;
+          border: 1px solid $line-0f8cf4;
+
+          &[aria-selected="true"] {
+            background-color: $bg-0f8cf4;
+            color: $font-ffffff;
+          }
+          & + .tab-label {
+            @include rem(margin-left, 12);
+          }
+        }
+        .project-list {
+          @include rem(width, 100%);
+          li {
+            @include rem(border-radius, 24);
+            @include rem(padding, 20);
+            box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+            & + li {
+              @include rem(margin-top, 20);
+            }
+            .project-title {
+              @include f24(700);
+              color: $font-212529;
+            }
+            .txt {
+              @include rem(margin, 16 0);
+              @include f18(400);
+              color: $font-212529;
+            }
+            dl {
+              & + dl {
+                @include rem(margin-top, 8px);
+              }
+              dt {
+                @include f16(500);
+                display: inline-block;
+              }
+              dd {
+                @include f16(400);
+                display: inline-block;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 1023px) {
+  .main {
+    .cont {
+      @include rem(padding-bottom, 80);
+      .home {
+        .home-text {
+          &.text-animated {
+          }
+
           p {
             @include f32(700);
-            color: $font-212529;
+          }
+          span {
+            @include f28(500);
+          }
+        }
+      }
+      .about {
+        @include rem(max-width, 100%);
+        @include rem(margin-top, 20);
+        .about-text {
+          p {
+            @include f28(700);
           }
         }
         .about-list {
-          @include rem(padding, 0 40);
-          @include rem(margin-top, 80);
-          @include rem(column-gap, 40);
-          display: grid;
-          @include rem(grid-template-columns, repeat(2, 1fr));
-          @include rem(grid-template-rows, repeat(1, 1fr));
+          @include rem(padding, 0);
+          @include rem(margin-top, 20);
+          @include rem(column-gap, 20);
+
+          @include rem(grid-template-columns, repeat(1, 1fr));
+
           &.type02 {
-            @include rem(grid-template-columns, repeat(3, 1fr));
+            @include rem(grid-template-columns, repeat(1, 1fr));
+            border-top: 1px solid $line-e5e5e5;
           }
           .about-item {
-            @include rem(padding, 20);
-            @include rem(border-radius, 32);
-            box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
-            text-align: center;
-            background-color: $bg-ffffff;
-            color: $font-212529;
+            & + .about-item {
+              border-top: 1px solid $line-e5e5e5;
+            }
+            .img-bx {
+              @include rem(margin-bottom, 20);
+              img {
+                @include rem(width, 40);
+                @include rem(height, 40);
+              }
+            }
+
             strong {
-              @include rem(margin-bottom, 12);
-              @include f24(500);
-              display: inline-block;
+              word-break: break-all;
+              @include rem(margin-bottom, 8);
+              @include f18(500);
             }
             p {
-              @include f20(400);
-              color: $font-868e96;
+              @include f16(400);
+
               & + p {
-                @include rem(margin-top, 8);
+              }
+              span {
               }
             }
           }
         }
       }
 
-      &.project {
-        transition-delay: 0.3s;
+      .project {
+        @include rem(max-width, 100%);
+        @include rem(margin-top, 20);
+        .project-text {
+          p {
+            @include f28(700);
+          }
+        }
+        .component-tab {
+          @include rem(padding, 0);
+          .tab-head {
+            @include rem(margin-top, 20);
+          }
+          .tab-label {
+            @include rem(padding, 4 8);
+            @include f20(500);
+
+            &[aria-selected="true"] {
+            }
+            & + .tab-label {
+              @include rem(margin-left, 8);
+            }
+          }
+          .content-inner {
+            @include rem(padding, 20);
+          }
+          .project-list {
+            li {
+              & + li {
+              }
+              .project-title {
+                @include f20(700);
+              }
+              .txt {
+                @include rem(margin, 8 0);
+                @include f16(400);
+              }
+              dl {
+                & + dl {
+                }
+                dt {
+                  @include f14(500);
+                }
+                dd {
+                  @include f14(400);
+                }
+              }
+            }
+          }
+        }
       }
     }
   }

@@ -87,7 +87,9 @@
 
 @media screen and (max-width: 1023px) {
   .header {
+    @include rem(height, 50);
     &.scrolled {
+      @include rem(padding, 0 20);
       &.active {
         @include rem(margin-top, 0);
         @include rem(padding, 0);
@@ -140,46 +142,51 @@
           }
         }
         .gnb-btn {
+          @include rem(width, 20);
+          @include rem(height, 20);
           display: block;
           position: relative;
           display: flex;
-          width: 2rem;
-          height: 2rem;
+
           flex-direction: column;
           align-items: flex-end;
           justify-content: center;
           &.active {
             .line {
               &:nth-child(1) {
-                top: 50%;
+                @include rem(width, 20);
+                @include rem(top, 50%);
                 transform: rotate(45deg);
-                width: 2rem;
               }
               &:nth-child(2) {
                 opacity: 0;
               }
               &:nth-child(3) {
-                top: 50%;
+                @include rem(width, 20);
+                @include rem(top, 50%);
+
                 transform: rotate(-45deg);
-                width: 2rem;
               }
             }
           }
           .line {
+            @include rem(width, 20);
+            @include rem(height, 2);
+            @include rem(top, 50%);
+            @include rem(border-radius, 1);
             position: absolute;
             display: block;
-            width: 2rem;
-            height: 0.2rem;
-            top: 50%;
+
             transform: translateY(-50%);
-            border-radius: 1px;
+
             background: $bg-ffffff;
             transition-duration: 0.3s;
             &:nth-child(1) {
               top: calc(50% - 0.6rem);
             }
             &:nth-child(2) {
-              width: 1.2rem;
+              @include rem(width, 12);
+
               opacity: 1;
             }
             &:nth-child(3) {
@@ -189,12 +196,14 @@
         }
       }
       .gnb {
+        @include rem(width, 100%);
+        @include rem(height, 100%);
+        @include rem(top, 50);
+        @include rem(right, 0);
         display: block;
-        width: 100%;
-        top: 96px;
-        height: 100vh;
+
         position: fixed;
-        right: 0;
+
         background-color: #0f8cf4;
         opacity: 0;
         visibility: hidden;

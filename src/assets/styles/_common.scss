@@ -1,0 +1,11 @@
+@use "abstracts" as *;
+
+.pc-show {
+  display: block;
+}
+
+@media (max-width: 1023px) {
+  .pc-show {
+    display: none;
+  }
+}

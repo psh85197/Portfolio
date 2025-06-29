@@ -1,13 +1,54 @@
 @use "../abstracts" as *;
 
 .footer {
-  @include rem(padding, 0 0 20px 0);
-  background-color: $bg-eeeeee;
-  border-top: 1px solid;
+  @include rem(width, 100%);
+  @include rem(padding, 40 0);
+  background-color: $bg-3c4046;
 
   // info
   .footer-info {
-    max-width: 1440px;
-    margin: 0 auto;
+    @include rem(max-width, 1440);
+    @include rem(margin, 0 auto);
+    .logo-area {
+      @include rem(width, 100%);
+      p {
+        @include f24(700);
+        color: $font-ffffff;
+      }
+    }
+    .footer-menu {
+      .footer-list {
+        li {
+          @include rem(margin-top, 8);
+          @include f16(400);
+          color: $font-ffffff;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1023px) {
+  .footer {
+    @include rem(padding, 20);
+
+    // info
+    .footer-info {
+      @include rem(max-width, 100%);
+
+      .logo-area {
+        p {
+          @include f20(700);
+        }
+      }
+      .footer-menu {
+        .footer-list {
+          li {
+            @include rem(margin-top, 4);
+            @include f16(400);
+          }
+        }
+      }
+    }
   }
 }
